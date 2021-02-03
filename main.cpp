@@ -1,14 +1,14 @@
 #include <iostream>
-
+#include <cmath>
 using namespace std;
 
+double f(double x){
+    return pow(x, 5) + 5*pow(x, 4) + 10*pow(x, 3) + 10*pow(x, 2)+5*x+1;
+}
 int main()
 {
-    int c;
-    double F;
-    cout<< "enter temperature c: ";
-    cin >> c;
-    F = c*9.0/5.0+32.0;
-    cout << F << endl;
+    double x;
+    cin >> x;
+    cout << f(x) << endl;
     return 0;
 }
