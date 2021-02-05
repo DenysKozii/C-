@@ -1,14 +1,18 @@
-#include <iostream>
-
+#include<iostream>
+#include<cmath>
 using namespace std;
+
 
 int main()
 {
-    int c;
-    double F;
-    cout<< "enter temperature c: ";
-    cin >> c;
-    F = c*9.0/5.0+32.0;
-    cout << F << endl;
+
+    int x, y, z, a;
+    cin >> a;
+    x = a / 100;
+    y = (a-x*100)/10;
+    z = (a-x*100-y*10);
+    cout << x << " " << y << " " << z << endl;
+    cout << x+y+z << endl;
+    cout << z << y << x;
     return 0;
 }
