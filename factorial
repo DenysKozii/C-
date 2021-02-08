@@ -1,0 +1,18 @@
+#include <iostream>
+#include <stdio.h>
+
+#include <cmath>
+using namespace std;
+
+double n;
+
+int main()
+{
+    cin >> n;
+    cout << n << "! = ";
+    for(int i = 1 ; i < n; i++){
+        cout << i << "*";
+    }
+    cout << n;
+    return 0;
+}
