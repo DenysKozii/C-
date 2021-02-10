@@ -1,14 +1,19 @@
-#include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
+double n=1, res;
+int i=0;
+
 int main()
 {
-    int c;
-    double F;
-    cout<< "enter temperature c: ";
-    cin >> c;
-    F = c*9.0/5.0+32.0;
-    cout << F << endl;
+
+    while(n!=0){
+        printf("a[%d]=",i);
+        scanf("%lf", &n);
+        i++;
+        res+=n;
+    }
+    printf("%lf",res);
     return 0;
 }
