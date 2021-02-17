@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+unsigned func_ak(unsigned  n){
+    int ak = n;
+    for(int i = 1; i <= n; i++){
+        if(ak % 2 == 0)
+            ak = ak/2;
+        else
+            ak = 3*ak + 1;
+    }
+    return ak;
+}
+unsigned func_i(unsigned  n){
+    int ak = n;
+    int i = 1;
+    while(ak != 1){
+        if(ak % 2 == 0)
+            ak = ak/2;
+        else
+            ak = 3*ak + 1;
+        i++;
+    }
+    return i;
+}
+
+
+int main() {
+//    cin >> n;
+//    cout << func_ak(n) << endl;
+//    cout << func_i(n) << endl;
+    int j;
+    for(int i = 2; i < 1000; i++){
+        if(func_ak(i) == 1) {
+            j = i;
+            cout << j << endl;
+        }
+    }
+    cout << j;
+    return 0;
+}
