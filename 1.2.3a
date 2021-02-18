@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+unsigned n, res = 1;
+
+unsigned func(unsigned  n){
+    int j = 1;
+    for(int i = 1; i <= n; i++){
+        j*=i;
+        res *= 2 + 1/j;
+    }
+    return res;
+}
+
+
+
+int main() {
+    cin >> n;
+    cout << func(n) << endl;
+    return 0;
+}
