@@ -1,14 +1,15 @@
-#include <iostream>
+#include <math.h>
+#include <stdio.h>
 
-using namespace std;
-
-int main()
+int main(void)
 {
-    int c;
-    double F;
-    cout<< "enter temperature c: ";
-    cin >> c;
-    F = c*9.0/5.0+32.0;
-    cout << F << endl;
-    return 0;
+double fraction,integer;
+double a,b;
+printf("1: =");
+scanf("%lf",&a);
+printf("2: =");
+scanf("%lf",&b);
+int res = (int)a*b;
+printf("a-b = %lf, a*b= %d\n", a-b,res );
+return 0;
 }
