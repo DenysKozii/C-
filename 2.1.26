@@ -1,0 +1,39 @@
+#include <iostream>
+
+using namespace std;
+int N;
+
+int main() {
+    int arr[4][4] = {{2,3,4,5},{1,5,4,3},{9,6,5,4},{7,7,7,7}};
+    int minEl = arr[0][0];
+    int maxEl = arr[0][0];
+    int minIndex = 0;
+    int maxIndex = 4;
+    for (int i = 0 ; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            if(arr[i][j] < minEl){
+                minEl = arr[i][j];
+                minIndex = i;
+            }
+            if(arr[i][j] > maxEl){
+                maxEl = arr[i][j];
+                maxIndex = i;
+            }
+        }
+    }
+    int min;
+    int max;
+    for (int i = 0; i < 4; i++){
+        max = arr[maxIndex][i];
+        min = arr[minIndex][i];
+        arr[minIndex][i] = max;
+        arr[maxIndex][i] = min;
+    }
+    for (int i = 0 ; i < 4; i++){
+        for (int j = 0; j < 4; j++){
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+}
