@@ -1,0 +1,43 @@
+#include <iostream>
+#include <cstring>
+#include <cmath>
+
+using namespace std;
+
+void f(const char* str){
+    int maxSize = 0;
+    int maxF = 0;
+    int maxL = 0;
+    int currentSize = 1;
+    int currentF = 0;
+    int currentL = 0;
+    char prev = str[0];
+    for (int i = 1; i < strlen(str); i++){
+        if (fabs(int(prev)-int(str[i])) <= 1){
+            currentSize++;
+            if(currentSize == 2){
+                currentF = i-1;
+            }
+            currentL = i;
+            if(currentSize > maxSize) {
+                maxSize = currentSize;
+                maxF = currentF;
+                maxL = currentL;
+            }
+        } else{
+            currentSize = 1;
+            currentF = 0;
+            currentL = 0;
+        }
+        prev = str[i];
+    }
+    for(int i = maxF; i <= maxL; i++){
+        cout << str[i];
+    }
+}
+
+int main() {
+    char str[255];
+    fgets(str,255,stdin);
+    f(str);
+}
