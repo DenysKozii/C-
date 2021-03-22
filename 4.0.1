@@ -1,0 +1,38 @@
+#include <iostream>
+
+using namespace std;
+
+
+typedef struct Point{
+    int x;
+    int y;
+} Point;
+
+typedef struct Triangle{
+    Point pointFirst;
+    Point pointSecond;
+} Triangle;
+
+void inputPoint(Point* point){
+    cin >> point -> x;
+    cin >> point -> y;
+}
+
+void inputTriangle(Triangle* triangle, Point* pointF, Point* pointS){
+    triangle->pointFirst = *pointF;
+    triangle->pointSecond = *pointS;
+}
+void printTriangle (Triangle* triangle){
+   cout << "x1 = " << triangle -> pointFirst.x << " y1 = " << triangle -> pointFirst.y << endl;
+   cout << "x2 = " << triangle -> pointSecond.x << " y2 = " << triangle -> pointSecond.y << endl;
+}
+
+int main() {
+    Triangle *triangle = new Triangle();
+    Point *pointFirst = new Point();
+    Point *pointSecond = new Point();
+    inputPoint(pointFirst);
+    inputPoint(pointSecond);
+    inputTriangle(triangle, pointFirst, pointSecond);
+    printTriangle(triangle);
+}
