@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+int createFile(const char *fname, double *mas, int n) {
+    FILE *fp;
+    fp = fopen(fname, "wb"); // write binary
+    if (fp == NULL) {
+        fprintf(stderr, "error create file %s", fname);
+        return -1;
+    }
+    int res = fwrite(mas, sizeof(double), n, fp);
+    fclose(fp);
+    return res;
+}
+
+int readFile(const char *fname) {
+    FILE *fp;
+    fp = fopen(fname, "rb"); // write binary
+    if (fp == NULL) {
+        fprintf(stderr, "error read file %s", fname);
+        return -1;
+    }
+    double x;
+    int k = 0;
+    while (!feof(fp)) {
+        int r = fread(&x, sizeof(double), 1, fp);
+        if (r == 0)
+            break;
+        printf("\n x[%d]=%lf, %d", k++, x, r);
+    }
+    fclose(fp);
+    return k;
+}
+
+int deleteFile(const char *fname, double *mas, int n, int a) {
+    FILE *fp;
+    fp = fopen(fname, "wb"); // write binary
+    if (fp == NULL) {
+        fprintf(stderr, "error create file %s", fname);
+        return -1;
+    }
+    double mas2[n];
+    int k = 0;
+    for (int i = 0; i < n; ++i) {
+        if (fabs(mas[i]) <= a) {
+            mas2[k++] = mas[i];
+        }
+    }
+    int res = fwrite(mas2, sizeof(double), n, fp);
+    fclose(fp);
+    return res;
+}
+
+int createFileG(const char *fnameF, const char *fnameG, int a, int n) {
+    FILE *fp;
+    fp = fopen(fnameF, "rb"); // write binary
+    if (fp == NULL) {
+        fprintf(stderr, "error read file %s", fnameF);
+        return -1;
+    }
+    double x;
+    int k = 0;
+    double mas[n];
+    while (!feof(fp)) {
+        int r = fread(&x, sizeof(double), 1, fp);
+        if (r == 0)
+            break;
+        if (fabs(x) < a) {
+            mas[k++] = x;
+        }
+    }
+
+    fp = fopen(fnameG, "wb"); // write binary
+    if (fp == NULL) {
+        fprintf(stderr, "error create file %s", fnameG);
+        return -1;
+    }
+    int res = fwrite(mas, sizeof(double), n, fp);
+    fclose(fp);
+    return res;
+}
+
+
+int main() {
+    double mas[100];
+    int n;
+    printf("n= ");
+    scanf("%d", &n);
+    int a;
+    printf("a= ");
+    scanf("%d", &a);
+    for (int i = 0; i < n; ++i) {
+        printf("mass[%d]=", i);
+        scanf("%lf", &mas[i]);
+    }
+    int res = createFile("1.dat", mas, n);
+    int res2 = createFileG("1.dat", "2.dat", a, n);
+    printf("%d", res);
+    readFile("1.dat");
+    readFile("2.dat");
+    deleteFile("1.dat", mas, n, a);
+    readFile("1.dat");
+
+}
