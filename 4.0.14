@@ -1,0 +1,43 @@
+#include <iostream>
+
+using namespace std;
+
+
+typedef struct Person{
+    int age;
+    int height;
+} Person;
+
+void input(Person* person){
+    cout << "age = ";
+    cin >> person -> age;
+    cout << "height = ";
+    cin >> person -> height;
+}
+
+int main() {
+    int n;
+    cout << "n = ";
+    cin >> n;
+    Person persons[n];
+    for(int i = 0; i < n; i++){
+        input(&persons[i]);
+    }
+    int ageSum = 0;
+    for (int i = 0; i < n; ++i) {
+        ageSum += persons[i].age;
+    }
+    cout << "average age = " << ageSum/n << endl;
+
+    int maxHeight = 0;
+    int name = 0;
+    int age = 0;
+    for (int i = 0; i < n; ++i) {
+        if(persons[i].height > maxHeight){
+            maxHeight = persons[i].height;
+            age = persons[i].age;
+            name = i;
+        }
+    }
+    cout << "max height = " << maxHeight << endl << "name = "<< name << endl << "age = "<< age << endl;
+}
