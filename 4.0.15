@@ -1,0 +1,99 @@
+#include<iostream>
+#include <map>
+
+using namespace std;
+
+typedef struct Student {
+    string surname;
+    string name;
+    string middleName;
+    bool male;
+    int age;
+    int grade;
+} Student;
+
+
+Student student(string surname, string name, string middleName, bool male, int age, int grade) {
+    Student student;
+    student.surname = surname;
+    student.name = name;
+    student.middleName = middleName;
+    student.male = male;
+    student.age = age;
+    student.grade = grade;
+    return student;
+}
+
+void a(Student students[], int N) {
+    map<string, int> namesMale;
+    map<string, int> namesFemale;
+    int maxCountNamesMale = 0;
+    int maxCountNamesFemale = 0;
+    for (int i = 0; i < N; ++i) {
+        if(students[i].male) {
+            if (namesMale.find(students[i].name) != namesMale.end()) {
+                namesMale[students[i].name] += 1;
+                if (namesMale[students[i].name] > maxCountNamesMale) {
+                    maxCountNamesMale = namesMale[students[i].name];
+                }
+            } else {
+                namesMale[students[i].name] = 1;
+            }
+        } else {
+            if (namesFemale.find(students[i].name) != namesFemale.end()) {
+                namesFemale[students[i].name] += 1;
+                if (namesFemale[students[i].name] > maxCountNamesFemale) {
+                    maxCountNamesFemale = namesFemale[students[i].name];
+                }
+            } else {
+                namesFemale[students[i].name] = 1;
+            }
+        }
+    }
+    cout << "Most frequently male names: " << endl;
+    for (const auto& name : namesMale) {
+        if (name.second >= maxCountNamesMale)
+            cout << name.first << " with amount = " << name.second << endl;
+    }
+    cout << "Most frequently female names: " << endl;
+    for (const auto& name : namesFemale) {
+        if (name.second >= maxCountNamesFemale)
+            cout << name.first << " with amount = " << name.second << endl;
+    }
+}
+
+void b(Student students[], int N){
+    map<int, int> ages;
+    int ageCount = 0;
+
+    for (int i = 0; i < N; ++i) {
+        if(ages.find(students[i].age) != ages.end()){
+            ages[students[i].age] += 1;
+        } else{
+            ages[students[i].age] = 1;
+        }
+        if (ages.find(students[i].age)->second > ageCount){
+            ageCount = ages.find(students[i].age)->second;
+        }
+    }
+    cout << endl;
+    cout << "Names with most often ages (count = " << ageCount << ")"<< endl;
+    for (int i = 0; i < N; ++i) {
+        if(ages.find(students[i].age)->second == ageCount){
+            cout << students[i].name << " " << students[i].surname[0] << " " << students[i].middleName[0] << endl;
+        }
+    }
+}
+
+int main() {
+    Student students[] = {
+            student("Kozii", "Denys", "Yur", true, 19, 2),
+            student("Babakova", "Elya", "Oleg", false, 18, 2),
+            student("Second", "Second", "Second", true, 18, 2),
+            student("Third", "Denys", "Third", true, 19, 1),
+    };
+
+    a(students, 4);
+    b(students, 4);
+
+}
