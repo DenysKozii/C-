@@ -1,0 +1,117 @@
+#include<iostream>
+
+using namespace std;
+
+typedef struct Time{
+    int year;
+    int month;
+    int day;
+} Time;
+
+typedef struct Book {
+    int code{};
+    string author;
+    string title;
+} Book;
+
+typedef struct Reader{
+    int number{};
+    string name;
+} Reader;
+
+
+typedef struct Blank{
+    Book book;
+    Reader reader;
+    Time time{};
+} Blank;
+
+
+void inputTime(Time *time) {
+    cout << "year" << endl;
+    int year;
+    cin >> year;
+    time->year = year;
+    cout << "month" << endl;
+    int month;
+    cin >> month;
+    time->month = month;
+    cout << "day" << endl;
+    int day;
+    cin >> day;
+    time->day = day;
+}
+
+void printTime(const Time time) {
+    cout << "year = " << time.year << endl;
+    cout << "month = " << time.month << endl;
+    cout << "day = " << time.day << endl;
+}
+
+void inputBook(Book *book) {
+    cout << "code" << endl;
+    int code;
+    cin >> code;
+    book->code = code;
+    cout << "author" << endl;
+    string author;
+    cin >> author;
+    book->author = author;
+    cout << "title" << endl;
+    string title;
+    cin >> title;
+    book->title = title;
+}
+
+
+void printBook(const Book &book) {
+    cout << "code = " << book.code << endl;
+    cout << "author = " << book.author << endl;
+    cout << "title = " << book.title << endl;
+}
+
+void inputReader(Reader *reader) {
+    cout << "number" << endl;
+    int number;
+    cin >> number;
+    reader->number = number;
+    cout << "name" << endl;
+    string name;
+    cin >> name;
+    reader->name = name;
+}
+
+
+void printReader(const Reader &reader) {
+    cout << "number = " << reader.number << endl;
+    cout << "name = " << reader.name << endl;
+}
+
+void inputBlank(Blank *blank) {
+    cout << "book" << endl;
+    Book book;
+    inputBook(&book);
+    blank->book = book;
+    cout << "reader" << endl;
+    Reader reader;
+    inputReader(&reader);
+    blank->reader = reader;
+    cout << "date" << endl;
+    Time time;
+    inputTime(&time);
+    blank->time = time;
+}
+
+
+void printBlank(const Blank &blank) {
+    printBook(blank.book);
+    printReader(blank.reader);
+    printTime(blank.time);
+}
+
+int main() {
+    Blank blank;
+    inputBlank(&blank);
+    printBlank(blank);
+    free(&blank);
+}
