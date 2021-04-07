@@ -1,0 +1,37 @@
+#include<iostream>
+
+
+using namespace std;
+
+
+void input(string& s){
+    cin >> s;
+}
+
+string input2(){
+    string s;
+    cin >> s;
+    return s;
+}
+
+string f(string& s){
+    string res;
+    bool crapka = true;
+    for (char c: s) {
+        if (!crapka){
+            if(c == ',') return res;
+            res += c;
+        }
+        if (c == ':' && crapka) crapka = false;
+    }
+    if (crapka) return s;
+    return res;
+}
+
+int main() {
+    string s;
+//    s = input2();
+    input(s);
+    cout << f(s);
+//    cout << s;
+}
