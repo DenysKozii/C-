@@ -1,0 +1,16 @@
+#include<iostream>
+
+
+using namespace std;
+
+string f(string& s){
+    size_t first = s.find_first_of(".");
+    size_t last = s.find_last_of(".");
+    return s.substr(first+1, last-first-1);
+}
+
+int main() {
+    string s;
+    cin >> s;
+    cout << f(s);
+}
