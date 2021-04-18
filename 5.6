@@ -1,0 +1,28 @@
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+void f(const string& input) {
+    double number = stod(input);
+    if (number < 0) {
+        cout << "None" << endl;
+    } else {
+        double res = log(number);
+        cout << fixed << setprecision(5) << "log for " << number << " = " << res << endl;
+        cout << fixed << scientific << "log for " << number << " in scientific = " << res << endl;
+    }
+}
+
+int main() {
+    string input;
+    cout << "Input:" << endl;
+    cin >> input;
+    size_t i;
+    while ((i = input.find(',')) != string::npos) {
+        f(input.substr(0, i));
+        input.erase(0, i + 1);
+    }
+    f(input);
+}
