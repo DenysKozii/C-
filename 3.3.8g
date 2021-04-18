@@ -1,0 +1,76 @@
+#include<iostream>
+
+
+using namespace std;
+
+int **fillArr(int **arr, int n, int m) {
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            arr[i][j] = rand() % 100;
+        }
+    }
+    return arr;
+}
+
+void printArr(int **arr, int N, int M) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < M; ++j) {
+            cout << arr[i][j] << " ";
+        }
+        cout << "\n";
+    }
+}
+
+int **alloc_memory(int n, int m) {
+    int **arr = (int **) malloc(n * sizeof(int *));
+    for (int i = 0; i < n; ++i) {
+        arr[i] = (int *) calloc(m, sizeof(int));
+    }
+    return arr;
+}
+
+void free_memory(int **arr, int n) {
+    for (int i = 0; i < n; ++i) {
+        free(arr[i]);
+    }
+    free(arr);
+}
+
+int **deleten(int **array, int nToDel, int n, int m) {
+    delete[] array[nToDel];
+    int **tmp = new int *[n - 1];
+    int tmpI = 0;
+    for (int i = 0; i < m; ++i)
+        if (i != nToDel)
+            tmp[tmpI++] = array[i];
+    delete[] array;
+    array = tmp;
+    return array;
+}
+
+
+int main() {
+    int n, m, k;
+
+    cout << "N : " << endl;
+    cin >> n;
+    cout << "M : " << endl;
+    cin >> m;
+    cout << "k : " << endl;
+    cin >> k;
+    int **array;
+    int **array_bigger;
+
+    array = alloc_memory(n, m);
+    array_bigger = alloc_memory(n, m + k);
+    array = fillArr(array, n, m);
+    array_bigger = fillArr(array_bigger, n, m+k);
+
+    cout << "Old array m columns: " << endl;
+    printArr(array, n, m);
+    cout << "New array with m+k columns: " << endl;
+    printArr(array_bigger, n, m+k);
+
+    free_memory(array, n);
+    free_memory(array_bigger, n);
+}
