@@ -1,0 +1,61 @@
+#include<iostream>
+
+using namespace std;
+
+bool check_a(string s, int i){
+    if (i == 0){
+        return s[i] == 'A' && s[i+1] == ' ';
+    } else{
+        return (s[i] == 'a' || s[i] == 'A') && s[i+1] == ' ' && (s[i-1] == ' ' || s[i-1] == '.');
+    }
+}
+
+bool check_an(string s, int i){
+    if (i == 0){
+        return s[i] == 'A' && s[i+1] == 'n' && s[i+2] == ' ';
+    } else{
+        return (s[i] == 'a' || s[i] == 'A')
+        && s[i+1] == 'n'
+        && (s[i-1] == ' ' || s[i-1] == '.')
+        && (s[i+2] == ' ' || s[i+2] == '.');
+    }
+}
+
+bool check_the(string s, int i){
+    if (i == 0){
+        return s[i] == 'T' && s[i+1] == 'h' && s[i+2] == 'e' && s[i+3] == ' ';
+    } else{
+        return (s[i] == 't' || s[i] == 'T')
+               && s[i+1] == 'h'
+               && s[i+2] == 'e'
+               && (s[i-1] == ' ' || s[i-1] == '.')
+               && (s[i+3] == ' ' || s[i+3] == '.');
+    }
+}
+
+void f(string& s){
+    for (int i = 0; i < s.size()-4; ++i) {
+        if (check_a(s, i)){
+            if (s[i+2] > 64 && s[i+2] < 91){
+                s[i+2] += 32;
+            }
+        }
+        if (check_an(s, i)){
+            if (s[i+3] > 64 && s[i+3] < 91){
+                s[i+3] += 32;
+            }
+        }
+        if (check_the(s, i)){
+            if (s[i+4] > 64 && s[i+4] < 91){
+                s[i+4] += 32;
+            }
+        }
+    }
+    cout << s;
+}
+
+int main() {
+    string s = "I don't want to be a Queen, i want to be the Queen!";
+    f(s);
+}
+
