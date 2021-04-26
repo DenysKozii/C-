@@ -1,0 +1,30 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+int f1() {
+    string str = "";
+    int counter = 0;
+    ifstream file(R"(C:\Users\denis\CLionProjects\untitled\file.txt)");
+    while (getline(file, str))
+        if (str.empty())
+            counter++;
+    return counter;
+}
+
+int f2() {
+    string str;
+    int max = 0;
+    ifstream file(R"(C:\Users\denis\CLionProjects\untitled\file.txt)");
+    while (getline(file, str))
+        if (str.size() > max)
+            max = str.size();
+    return max;
+};
+
+int main() {
+    cout << "Amount of empty rows = " << f1() << endl;
+    cout << "Max size of rows = " << f2() << endl;
+};
