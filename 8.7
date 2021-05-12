@@ -1,0 +1,98 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+typedef double REAL;
+
+class Triangle {
+private:
+    REAL a;
+    REAL b;
+    REAL c;
+    int abc;
+    int bca;
+    int cab;
+
+public:
+    Triangle() {}
+
+    Triangle(REAL a_, REAL b_, int abc_) : a(a_), b(b_), bca(abc_) {
+        bca = bca * M_PI / 180;
+        c = sqrt(a * a + b * b - 2 * b * a * cos(bca));
+    }
+
+    void readTriangle();
+
+    REAL getArea() const;
+
+    REAL getPerimeter() const;
+
+    REAL getA() const;
+
+    REAL getB() const;
+
+    REAL getC() const;
+
+    int getABC() const;
+
+    int getBCA() const;
+
+    int getCAB() const;
+};
+
+void Triangle::readTriangle() {
+    cout << "a: ";
+    cin >> a;
+    cout << "b: ";
+    cin >> b;
+    cout << "angle: ";
+    cin >> bca;
+    bca = bca * M_PI / 180;
+    c = sqrt(a * a + b * b - 2 * b * a * cos(bca));
+    cab = acos((c * c + b * b - a * a) / 2 * c * b);
+    abc = acos((a * a + c * c - b * b) / 2 * a * c);
+}
+
+REAL Triangle::getPerimeter() const {
+    return a + b + c;
+}
+
+REAL Triangle::getArea() const {
+    return 0.5 * a * b * sin(abc);
+}
+
+REAL Triangle::getA() const {
+    return a;
+}
+
+REAL Triangle::getB() const {
+    return b;
+}
+
+REAL Triangle::getC() const {
+    return c;
+}
+
+int Triangle::getABC() const {
+    return abc * 180 / M_PI;
+}
+
+int Triangle::getCAB() const {
+    return cab * 180 / M_PI;
+}
+
+int Triangle::getBCA() const {
+    return bca * 180 / M_PI;
+}
+
+
+int main() {
+    Triangle triangle;
+    triangle.readTriangle();
+    cout << triangle.getC() << endl;
+    cout << triangle.getPerimeter() << endl;
+    cout << triangle.getArea() << endl;
+
+    return 0;
+}
