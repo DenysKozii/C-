@@ -1,0 +1,74 @@
+#include<iostream>
+#include<fstream>
+#include<cmath>
+
+using namespace std;
+
+struct Baggage {
+    int passengerId;
+    unsigned amount;
+    double weight;
+};
+
+string *getPassengers(int n) {
+    ifstream in;
+    in.open("passengers.txt");
+    string *passengers = new string[n];
+    for (int i = 0; i < n; i++) {
+        in >> passengers[i];
+    }
+    in.close();
+    return passengers;
+}
+
+Baggage *getBaggages(int n) {
+    ifstream in;
+    in.open("baggage.txt");
+    Baggage *baggages = new Baggage[n];
+    for (int i = 0; i < n; i++) {
+        in >> baggages[i].passengerId >>
+           baggages[i].amount >> baggages[i].weight;
+    }
+    in.close();
+    return baggages;
+}
+
+void b(string *passengers, Baggage *baggages) {
+    int n = passengers->size();
+    cout << endl << "Passengers with 2+ items:" << endl;
+    for (int i = 0; i < n; i++)
+        if (baggages[i].amount > 2)
+            cout << baggages[i].passengerId << " " << passengers[baggages[i].passengerId - 1] << endl;
+    cout << "Statistically large baggage:" << endl;
+    double average = 0;
+    for (int i = 0; i < n; i++)
+        average += baggages[i].amount;
+    average /= n;
+    for (int i = 0; i < n; i++)
+        if (baggages[i].amount > average)
+            cout << baggages[i].passengerId << " " << passengers[baggages[i].passengerId - 1] << endl;
+}
+
+void g(string *passengers, Baggage *baggages) {
+    int n = passengers->size();
+    cout << "Passangers with similar baggage:" << endl;
+    for (int i = 0; i < n; i++)
+        for (int j = i + 1; j < n; ++j)
+            if (baggages[i].amount == baggages[j].amount
+                && abs(baggages[i].weight - baggages[j].weight) <= 1)
+                cout << passengers[baggages[i].passengerId - 1] << " and "
+                     << passengers[baggages[j].passengerId - 1] << endl;
+}
+
+int main() {
+    int n;
+    cout << "Number of passengers = ";
+    cin >> n;
+    string *passengers = getPassengers(n);
+    Baggage *baggages = getBaggages(n);
+
+    b(passengers, baggages);
+    g(passengers, baggages);
+    
+    return 0;
+} 
