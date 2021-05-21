@@ -1,0 +1,228 @@
+#include<iostream>
+#include<cmath>
+
+using namespace std;
+
+typedef double REAL;
+
+class TPoint {
+protected:
+    REAL x, y;
+    REAL x_acceleration, y_acceleration;
+    size_t dim;
+    int time_appear;
+private:
+    bool parall(double a1, double a2, double b1, double b2) {
+        return (a1 / a2) == (b1 / b2);
+    }
+
+    void intersect(double a1, double a2, double b1, double b2, double c1, double c2, double &x5, double &y5) {
+        double det = a1 * b2 - a2 * b1;
+        x5 = (b1 * c2 - b2 * c1) / det;
+        y5 = (a2 * c1 - a1 * c2) / det;
+    }
+
+public:
+    TPoint() { dim = 2; }
+
+    TPoint(REAL x_, REAL y_, REAL x_acceleration_, REAL y_acceleration_, int time_appear_) :
+            x(x_), y(y_), x_acceleration(x_acceleration_), y_acceleration(y_acceleration_), time_appear(time_appear_),
+            dim(2) {}
+
+    void input() {
+        cout << "x,y,time_appear =";
+        cin >> x >> y >> time_appear;
+        cout << "x_acceleration, y_acceleration =";
+        cin >> x_acceleration >> y_acceleration;
+    }
+
+    void setX(REAL x) {
+        this->x = x;
+    }
+
+    void setY(REAL y) {
+        this->y = y;
+    }
+
+    double getX() {
+        return x;
+    }
+
+    double getY() {
+        return y;
+    }
+
+    int getTime_appear() {
+        return time_appear;
+    }
+
+    double getSpeed(int time) {
+        return sqrt(pow(x_acceleration * time, 2) + pow(y_acceleration * time, 2));
+    }
+
+    double getAcceleration() {
+        return sqrt(pow(x_acceleration, 2) + pow(y_acceleration, 2));
+    }
+
+    double getX(int time) {
+        return x + x_acceleration * pow((time - time_appear), 2) / 2;
+    }
+
+    double getY(int time) {
+        return y + y_acceleration * pow((time - time_appear), 2) / 2;
+    }
+
+    double distance(TPoint &b, int time) {
+        REAL a_y = getY(time);
+        REAL a_x = getX(time);
+        REAL b_y = b.getY(time);
+        REAL b_x = b.getX(time);
+        return sqrt(pow(a_x - b_x, 2) + pow(a_y - b_y, 2));
+    }
+
+    double intersectTrajectories(TPoint &b) {
+        int time = time_appear > b.time_appear ? time_appear : b.time_appear;
+        REAL a1, a2, b1, b2, c1, c2, x5, y5;
+        REAL x1 = getX();
+        REAL y1 = getY();
+        REAL x2 = getX(time_appear + 1);
+        REAL y2 = getY(time_appear + 1);
+        REAL x3 = b.getX();
+        REAL y3 = b.getY();
+        REAL x4 = b.getX(b.time_appear + 1);
+        REAL y4 = b.getY(b.time_appear + 1);
+
+        a1 = y1 - y2;
+        b1 = x2 - x1;
+        c1 = x1 * y2 - x2 * y1;
+        a2 = y3 - y4;
+        b2 = x4 - x3;
+        c2 = x3 * y4 - x4 * y3;
+
+        if (parall(a1, a2, b1, b2)) return -1;
+
+        intersect(a1, a2, b1, b2, c1, c2, x5, y5);
+        TPoint intersect(x5, y5, 0, 0, time);
+        TPoint nextA(x2, y2, 0, 0, time_appear);
+        TPoint nextB(x4, y4, 0, 0, b.time_appear);
+        double distA1 = distance(intersect, time_appear);
+        double distB1 = b.distance(intersect, b.time_appear);
+        double distA2 = nextA.distance(intersect, time_appear);
+        double distB2 = nextB.distance(intersect, b.time_appear);
+
+        if (distA1 > distA2 && distB1 > distB2) {
+            double distAin1Second = distance(nextA, time_appear);
+            double distBin1Second = b.distance(nextB, b.time_appear);
+            if (distA1 / distAin1Second > distB1 / distBin1Second) {
+                time = distA1 / distAin1Second;
+            } else {
+                time = distB1 / distBin1Second;
+            }
+            return time;
+        }
+        return -1;
+    }
+
+
+    friend ostream &operator<<(ostream &f, const TPoint &p) {
+        f << "(" << p.x << "," << p.y << ")";
+        return f;
+    }
+
+    size_t getDim() {
+        return dim;
+    }
+};
+
+class TPoint3D : public TPoint {
+    REAL z;
+    REAL z_acceleration;
+
+public:
+    TPoint3D() { dim = 3; }
+
+    TPoint3D(REAL x_, REAL y_, REAL z_, REAL x_acceleration_, REAL y_acceleration_, REAL z_acceleration_,
+             int time_appear_)
+            : TPoint(x_, y_, x_acceleration_, y_acceleration_, time_appear_), z(z_), z_acceleration(z_acceleration_) { dim = 3; }
+
+    void input() {
+        TPoint::input();
+        cout << "z =";
+        cin >> z;
+        cout << "z_acceleration =";
+        cin >> z_acceleration;
+    }
+
+    void setZ(REAL z) {
+        this->z = z;
+    }
+
+    double getZ() {
+        return z;
+    }
+
+    double getSpeed(int time) {
+        return sqrt(pow(x_acceleration * time, 2) + pow(y_acceleration * time, 2) + pow(z_acceleration * time, 2));
+    }
+
+    double getAcceleration() {
+        return sqrt(pow(x_acceleration, 2) + pow(y_acceleration, 2) + pow(z_acceleration, 2));
+    }
+
+    double distance(TPoint3D &b, int time) {
+        REAL a_y = y + y_acceleration * pow((time - time_appear), 2) / 2;
+        REAL a_x = x + x_acceleration * pow((time - time_appear), 2) / 2;
+        REAL a_z = z + z_acceleration * pow((time - time_appear), 2) / 2;
+        REAL b_y = b.y + b.y_acceleration * pow((time - b.time_appear), 2) / 2;
+        REAL b_x = b.x + b.x_acceleration * pow((time - b.time_appear), 2) / 2;
+        REAL b_z = b.z + b.z_acceleration * pow((time - b.time_appear), 2) / 2;
+        REAL delta1 = pow(a_x - b_x, 2);
+        REAL delta2 = pow(a_z - b_z, 2);
+        REAL delta3 = pow(a_y - b_y, 2);
+        REAL res = sqrt(delta1 + delta2 + delta3);
+        return res;
+    }
+
+    friend ostream &operator<<(ostream &f, const TPoint3D &p) {
+        f << "(" << p.x << "," << p.y << "," << p.z << ")";
+        return f;
+    }
+};
+
+int main() {
+    TPoint points[5];
+    TPoint p1(0, 0, 1, 1, 0);
+    TPoint p2(0, 0, 1, 1, 1);
+    TPoint p3(30, 1, 2, 4, 0);
+    TPoint p4(0, -1, 12, 24, 11);
+    TPoint p5(-100, 11, 32, 34, 0);
+    points[0] = p1;
+    points[1] = p2;
+    points[2] = p3;
+    points[3] = p4;
+    points[4] = p5;
+    cout << p1 << p2 << p3 << endl;
+    cout << p1.distance(p2, 2) << endl;
+    cout << p1.distance(p3, 5) << endl;
+    cout << p3 << " and " << p2 << " trajectories can intersect after " << p3.intersectTrajectories(p2) << " seconds"
+         << endl;
+
+    TPoint3D p0(0, 0, 0, 1, 1, 1, 0);
+    TPoint3D p01(3, 1, 0, 1, 1, 1, 1);
+    cout << p0 << endl;
+    cout << p0.distance(p01, 1) << endl;
+
+    int time = 100;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = i + 1; j < 5; ++j) {
+            double intersectTime = points[i].intersectTrajectories(points[j]);
+            if (intersectTime != -1 && intersectTime <= time) {
+                cout << points[i] << " and " << points[j] << " trajectories can intersect in " <<
+                     intersectTime << " seconds" << endl;
+            }
+        }
+    }
+
+}
+
+
